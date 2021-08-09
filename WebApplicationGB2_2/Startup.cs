@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
+using WebApplicationGB2_2.Services;
 
 namespace WebApplicationGB2_2
 {
@@ -25,6 +26,7 @@ namespace WebApplicationGB2_2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IPersonService, InMemoryPersonService>();
 
             services.AddSwaggerGen(c =>
             {
