@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
+using WebApplicationGB2_2.Services;
 
 namespace WebApplicationGB2_2
 {
@@ -23,7 +26,13 @@ namespace WebApplicationGB2_2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IPersonService, InMemoryPersonService>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                { Title = "Сервис обработки заказов", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +54,11 @@ namespace WebApplicationGB2_2
                     pattern: "{controller=Home}/{action=Index}");
             });
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Сервис обработки заказов");
+            });
         }
     }
 }
